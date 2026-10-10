@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N.Ben Dealer Shop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #f8fafc; color: #0f172a; padding-bottom: 80px; }
+        
+        header { 
+            background: white; 
+            padding: 15px; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            border-bottom: 1px solid #e2e8f0; 
+        }
+        header .logo { font-weight: bold; font-size: 1.3rem; color: #2563eb; cursor: pointer; }
+        header .ceo-nav-btn { background: #8b5cf6; color: white; border: none; padding: 6px 12px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+
+        .container { max-width: 450px; margin: 15px auto; padding: 0 10px; }
+        
+        /* 1. DEALER PANEL SCREEN (HOME - NO PIN) */
+        .panel-view { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .panel-header { text-align: center; margin-bottom: 20px; font-size: 1.1rem; }
+        
+        .menu-list { display: flex; flex-direction: column; gap: 10px; }
+        .menu-item { display: flex; align-items: center; gap: 15px; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 15px; border-radius: 8px; font-weight: 500; cursor: pointer; }
+        .menu-item:active { background: #e2e8f0; }
+        
+        .seller-btn { border: 2px solid #2563eb; background: #eff6ff; font-weight: bold; }
+        .ceo-special { border: 2px solid #8b5cf6; background: #f5f3ff; font-weight: bold; }
+        .menu-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .logout-btn { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; justify-content: center; }
+
+        /* 2. CEO LOGIN SCREEN */
+        .login-view { display: none; background: white; padding: 30px 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); text-align: center; margin-top: 20px; }
+        .pin-input { width: 100%; padding: 12px; font-size: 1.5rem; text-align: center; letter-spacing: 10px; border: 2px solid #cbd5e1; border-radius: 8px; margin-bottom: 15px; }
+        .submit-btn { width: 100%; background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
+        .error-msg { color: #ef4444; font-size: 0.9rem; margin-top: 10px; display: none; }
+
+        /* 3. PRODUCTS VIEW SCREEN */
+        .products-view { display: none; background: white; padding: 20px; border-radius: 12px; }
+        .back-btn { background: #e2e8f0; border: none; padding: 8px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
+        
+        .product-card { display: flex; align-items: center; gap: 15px; border-bottom: 1px solid #e2e8f0; padding: 12px 0; }
+        .prod-icon { font-size: 2rem; background: #f1f5f9; padding: 8px; border-radius: 8px; }
+        .prod-details { flex: 1; }
+        .prod-name { font-weight: bold; }
+        .prod-price { color: #2563eb; font-weight: bold; margin-top: 2px; }
+        .buy-btn { background: #10b981; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+
+        /* BOTTOM BAR */
+        .status-bar { background: #1e293b; color: white; padding: 12px; position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; z-index: 100; }
+        .signout { background: white; color: #1e293b; border: none; padding: 4px 8px; border-radius: 4px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="gendaKuriHome()">N.Ben Dealer Shop</div>
+        <button id="nav-ceo-btn" class="ceo-nav-btn" onclick="funguraCeoLogin()">CEO Login</button>
+    </header>
+
+    <div class="container">
+        
+        <!-- ================= 1. HOME: MAIN DEALER PANEL (NO PIN) ================= -->
+        <div id="dealer-screen" class="panel-view" style="display: block;">
+            <div class="panel-header">👋 Good morning, <strong>Ben. brown</strong></div>
+            
+            <div class="menu-list">
+                <div class="menu-item" onclick="funguraPaji('all')">🛒 Start Order / Products</div>
+                <div class="menu-item" onclick="alert('Draft Orders Panel')">📂 Draft Orders</div>
+                <div class="menu-item" onclick="alert('Verify Orders Panel')">✅ Verify Orders</div>
+                <div class="menu-item" onclick="alert('My Account Settings')">👤 My Account</div>
+                <div class="menu-item" onclick="alert('Manage Orders')">🗂️ Manage Orders</div>
+                
+                <!-- SELLER BUTTON TO VIEW VEHICLES -->
+                <div class="menu-item seller-btn" onclick="funguraPaji('seller')">🏬 Seller Section (Car, Moto, Bike)</div>
+                
+                <div class="menu-item" onclick="alert('Order Summary')">✉️ Order Summary</div>
+                <div class="menu-item" onclick="alert('Stockist Panel')">📦 Stockist Panel</div>
+                <div class="menu-item" onclick="alert('Reception Panel')">📋 Reception Panel</div>
+                
+                <div class="menu-row">
+                    <div class="menu-item" onclick="alert('Purchases Panel')">📥 Purchases</div>
+                    <div class="menu-item" onclick="alert('Attendance Panel')">🕒 Attendance</div>
+                </div>
+                <div class="menu-item logout-btn" onclick="alert('Logged out')">🚪 Logout</div>
+            </div>
+        </div>
+
+        <!-- ================= 2. PRIVET: CEO MANAGER PANEL (PIN: 9999) ================= -->
+        <div id="ceo-screen" class="panel-view">
+            <div class="panel-header" style="color: #8b5cf6;">👑 <strong>CEO MANAGER PANEL (Privet)</strong></div>
+            <div class="menu-list">
+                <div class="menu-item ceo-special" onclick="alert('Total Sales Today: 2,500,000 RWF')">💰 Total Sales & Revenues</div>
+                <div class="menu-item ceo-special" onclick="alert('Managing Staff & Sellers Attendance')">👥 Manage Staff / Sellers</div>
+                <div class="menu-item" onclick="funguraPaji('all')">🛒 View All Products & Stocks</div>
+                <div class="menu-item seller-btn" onclick="funguraPaji('seller')">🏬 Seller Section (Vehicles)</div>
+                <div class="menu-item" onclick="alert('Monthly Business Analytics')">📊 System Analytics & Reports</div>
+                <div class="menu-item logout-btn" onclick="logoutCeo()">🚪 Logout CEO Session</div>
+            </div>
+        </div>
+
+        <!-- ================= 3. CEO LOGIN LOGIN SCREEN ================= -->
+        <div id="login-screen" class="login-view">
+            <h2 style="font-size: 1.1rem; margin-bottom: 15px; color:#8b5cf6;">👑 Ingiza PIN ya CEO Manager</h2>
+            <input type="password" id="pin-field" class="pin-input" placeholder="••••" maxlength="4" inputmode="numeric">
+            <button class="submit-btn" style="background:#8b5cf6;" onclick="verifyCeoPin()">Kwinjira</button>
+            <button class="submit-btn" style="background:#64748b; margin-top:8px;" onclick="gendaKuriHome()">Subira Inyuma</button>
+            <div id="error-message" class="error-msg">⚠️ PIN unginje si yo!</div>
+        </div>
+
+        <!-- ================= 4. PRODUCTS / PRICES VIEW ================= -->
+        <div id="products-screen" class="products-view">
+            <button class="back-btn" onclick="subiraInyuma()">⬅️ Subira Inyuma</button>
+            <h3 id="paji-title" style="margin-bottom: 15px;">Ibicuruzwa</h3>
+            <div id="products-container"></div>
+        </div>
+
+    </div>
+
+    <!-- BOTTOM STATUS BAR -->
+    <div class="status-bar">
+        <div>Signed in as: <strong id="user-display">Ben. brown</strong> <span id="role-tag" style="color:#94a3b8; font-size:0.8rem;">sales</span></div>
+        <button class="signout" onclick="gendaKuriHome()">Home</button>
+    </div>
+
+    <script>
+        // Data Base Table (Uhagazemo Maintenance Table)
+        const ibicuruzwa = [
+            { name: "Premium Shoes", price: "25,000 RWF", cat: "all", icon: "👟" },
+            { name: "Official Trousers", price: "15,000 RWF", cat: "all", icon: "👖" },
+            { name: "Complete Cloths Set", price: "40,000 RWF", cat: "all", icon: "👔" },
+            { name: "Sewing Machine", price: "350,000 RWF", cat: "all", icon: "⚙️" },
+            { name: "Repair Machine Service", price: "12,000 RWF", cat: "all", icon: "🛠️" },
+            // Seller category
+            { name: "Selling Car (Toyota)", price: "8,500,000 RWF", cat: "seller", icon: "🚗" },
+            { name: "Sport Motorcycle", price: "1,600,000 RWF", cat: "seller", icon: "🏍️" },
+            { name: "Mountain Bicycle", price: "130,000 RWF", cat: "seller", icon: "🚲" }
+        ];
+
+        let isCeoActive = false;
+
+        function funguraCeoLogin() {
+            document.getElementById('dealer-screen').style.display = 'none';
+            document.getElementById('ceo-screen').style.display = 'none';
+            document.getElementById('products-screen').style.display = 'none';
+            document.getElementById('login-screen').style.display = 'block';
+        }
+
+        function gendaKuriHome() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('products-screen').style.display = 'none';
+            
+            if (isCeoActive) {
+                document.getElementById('dealer-screen').style.display = 'none';
+                document.getElementById('ceo-screen').style.display = 'block';
+            } else {
+                document.getElementById('ceo-screen').style.display = 'none';
